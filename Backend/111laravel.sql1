@@ -1,0 +1,449 @@
+BEGIN TRANSACTION;
+DROP TABLE IF EXISTS "migrations";
+CREATE TABLE IF NOT EXISTS "migrations" (
+	"id"	integer NOT NULL,
+	"migration"	varchar NOT NULL,
+	"batch"	integer NOT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+DROP TABLE IF EXISTS "users";
+CREATE TABLE IF NOT EXISTS "users" (
+	"id"	integer NOT NULL,
+	"name"	varchar NOT NULL,
+	"email"	varchar NOT NULL,
+	"email_verified_at"	datetime,
+	"password"	varchar NOT NULL,
+	"remember_token"	varchar,
+	"created_at"	datetime,
+	"updated_at"	datetime,
+	"IsAdmin"	tinyint(1) NOT NULL DEFAULT '0',
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+DROP TABLE IF EXISTS "password_resets";
+CREATE TABLE IF NOT EXISTS "password_resets" (
+	"email"	varchar NOT NULL,
+	"token"	varchar NOT NULL,
+	"created_at"	datetime
+);
+DROP TABLE IF EXISTS "failed_jobs";
+CREATE TABLE IF NOT EXISTS "failed_jobs" (
+	"id"	integer NOT NULL,
+	"uuid"	varchar NOT NULL,
+	"connection"	text NOT NULL,
+	"queue"	text NOT NULL,
+	"payload"	text NOT NULL,
+	"exception"	text NOT NULL,
+	"failed_at"	datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+DROP TABLE IF EXISTS "personal_access_tokens";
+CREATE TABLE IF NOT EXISTS "personal_access_tokens" (
+	"id"	integer NOT NULL,
+	"tokenable_type"	varchar NOT NULL,
+	"tokenable_id"	integer NOT NULL,
+	"name"	varchar NOT NULL,
+	"token"	varchar NOT NULL,
+	"abilities"	text,
+	"last_used_at"	datetime,
+	"created_at"	datetime,
+	"updated_at"	datetime,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+DROP TABLE IF EXISTS "AccessRoleList";
+CREATE TABLE IF NOT EXISTS "AccessRoleList" (
+	"id"	integer NOT NULL,
+	"RoleName"	varchar NOT NULL,
+	"created_at"	datetime,
+	"updated_at"	datetime,
+	"CreatedBy"	varchar NOT NULL DEFAULT '-',
+	"UpdatedBy"	varchar NOT NULL DEFAULT '-',
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+DROP TABLE IF EXISTS "AccessDetailsList";
+CREATE TABLE IF NOT EXISTS "AccessDetailsList" (
+	"id"	integer NOT NULL,
+	"DocName"	varchar NOT NULL,
+	"AccessRole"	integer NOT NULL,
+	"Read"	tinyint(1) NOT NULL,
+	"Create"	tinyint(1) NOT NULL,
+	"Submit"	tinyint(1) NOT NULL,
+	"Delete"	tinyint(1) NOT NULL,
+	"Export"	tinyint(1) NOT NULL,
+	"Edit"	tinyint(1) NOT NULL,
+	"IsActive"	tinyint(1) NOT NULL,
+	"CreatedBy"	varchar NOT NULL,
+	"created_at"	datetime,
+	"updated_at"	datetime,
+	"UpdatedBy"	varchar DEFAULT '-',
+	FOREIGN KEY("AccessRole") REFERENCES "AccessRoleList"("id") on delete cascade on update cascade,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+DROP TABLE IF EXISTS "CategoryList";
+CREATE TABLE IF NOT EXISTS "CategoryList" (
+	"id"	integer NOT NULL,
+	"CategoryName"	varchar NOT NULL,
+	"IsActive"	tinyint(1) NOT NULL,
+	"created_at"	datetime,
+	"updated_at"	datetime,
+	"CreatedBy"	varchar NOT NULL DEFAULT '-',
+	"UpdatedBy"	varchar NOT NULL DEFAULT '-',
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+DROP TABLE IF EXISTS "SubCategoryList";
+CREATE TABLE IF NOT EXISTS "SubCategoryList" (
+	"id"	integer NOT NULL,
+	"SubCategoryName"	varchar NOT NULL,
+	"Category"	integer NOT NULL,
+	"IsActive"	tinyint(1) NOT NULL,
+	"created_at"	datetime,
+	"updated_at"	datetime,
+	"CreatedBy"	varchar NOT NULL DEFAULT '-',
+	"UpdatedBy"	varchar NOT NULL DEFAULT '-',
+	FOREIGN KEY("Category") REFERENCES "CategoryList"("id") on delete cascade on update cascade,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+DROP TABLE IF EXISTS "ShoppingCartItems";
+CREATE TABLE IF NOT EXISTS "ShoppingCartItems" (
+	"id"	integer NOT NULL,
+	"Product"	integer NOT NULL,
+	"CartID"	integer NOT NULL,
+	"GrossAmount"	float NOT NULL,
+	"Discount"	float DEFAULT '0',
+	"NetAmount"	float NOT NULL,
+	"Message"	varchar DEFAULT 'Message',
+	"Signature"	varchar DEFAULT 'Signature',
+	"created_at"	datetime,
+	"updated_at"	datetime,
+	"StreetAddress"	varchar DEFAULT '-',
+	"City"	varchar DEFAULT 'City',
+	"State"	varchar DEFAULT 'State',
+	"Country"	varchar DEFAULT 'United States',
+	"FullName"	varchar DEFAULT 'FullName',
+	"MobileNo"	varchar DEFAULT '-',
+	"NewAddress"	tinyint(1) DEFAULT '0',
+	"AssignedVendor"	integer,
+	"Status"	varchar NOT NULL DEFAULT 'Pending',
+	FOREIGN KEY("Product") REFERENCES "ProductList"("id") on delete cascade,
+	FOREIGN KEY("CartID") REFERENCES "ShoppingCart"("id") on delete cascade,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+DROP TABLE IF EXISTS "ProductList";
+CREATE TABLE IF NOT EXISTS "ProductList" (
+	"id"	integer NOT NULL,
+	"ProductName"	varchar NOT NULL,
+	"SubCateogry"	integer NOT NULL,
+	"Price"	float NOT NULL DEFAULT '0',
+	"Artist"	varchar NOT NULL DEFAULT '-',
+	"File1"	varchar,
+	"File2"	varchar,
+	"File3"	varchar,
+	"File4"	varchar,
+	"UploadedBy"	varchar NOT NULL,
+	"UpdatedBy"	varchar NOT NULL,
+	"created_at"	datetime,
+	"updated_at"	datetime,
+	"IsActive"	tinyint(1) DEFAULT '1',
+	FOREIGN KEY("SubCateogry") REFERENCES "SubCategoryList"("id") on delete cascade on update cascade,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+DROP TABLE IF EXISTS "ShoppingCart";
+CREATE TABLE IF NOT EXISTS "ShoppingCart" (
+	"id"	integer NOT NULL,
+	"CartCode"	varchar NOT NULL,
+	"UserID"	integer,
+	"GrossAmount"	float NOT NULL DEFAULT '0',
+	"Discount"	float NOT NULL DEFAULT '0',
+	"NetAmount"	float NOT NULL DEFAULT '0',
+	"ProductCount"	integer NOT NULL DEFAULT '0',
+	"Currency"	varchar DEFAULT 'USD',
+	"IsCompleted"	tinyint(1) DEFAULT '0',
+	"IsCheckedOut"	tinyint(1) DEFAULT '0',
+	"IsPaid"	tinyint(1) DEFAULT '0',
+	"created_at"	datetime,
+	"updated_at"	datetime,
+	"OrderId"	integer,
+	FOREIGN KEY("UserID") REFERENCES "users"("id") on delete cascade,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+DROP TABLE IF EXISTS "Orders";
+CREATE TABLE IF NOT EXISTS "Orders" (
+	"id"	integer NOT NULL,
+	"FullName"	varchar DEFAULT 'Full Name',
+	"StreetAddress"	text DEFAULT 'Address',
+	"City"	varchar DEFAULT 'City',
+	"State"	varchar DEFAULT 'State',
+	"Country"	varchar DEFAULT 'Country',
+	"PostalCode"	varchar DEFAULT 'postal code',
+	"Email"	varchar DEFAULT 'Email',
+	"Mobile"	varchar DEFAULT '+1',
+	"PaymentReference"	varchar DEFAULT '-',
+	"PaymentMethod"	varchar DEFAULT 'PayPal',
+	"created_at"	datetime,
+	"updated_at"	datetime,
+	"PaymentStatus"	varchar DEFAULT 'Unverified',
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+DROP TABLE IF EXISTS "Vendors";
+CREATE TABLE IF NOT EXISTS "Vendors" (
+	"id"	integer NOT NULL,
+	"VendorName"	varchar DEFAULT '-',
+	"Address"	varchar DEFAULT '-',
+	"BankAccountNo"	varchar DEFAULT '-',
+	"ContactNumber"	varchar DEFAULT 'text',
+	"Rate"	float DEFAULT '0',
+	"CreatedBy"	varchar DEFAULT '-',
+	"UpdatedBy"	varchar DEFAULT 'text',
+	"Email"	varchar DEFAULT 'text',
+	"created_at"	datetime,
+	"updated_at"	datetime,
+	"IsActive"	tinyint(1) DEFAULT '1',
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+INSERT INTO "migrations" ("id","migration","batch") VALUES (1,'2014_10_12_000000_create_users_table',1),
+ (2,'2014_10_12_100000_create_password_resets_table',1),
+ (3,'2019_08_19_000000_create_failed_jobs_table',1),
+ (4,'2019_12_14_000001_create_personal_access_tokens_table',1),
+ (5,'2023_08_21_180712_create_access_role_lists_table',1),
+ (6,'2023_08_21_180738_create_access_detail_lists_table',1),
+ (7,'2023_08_21_180836_create_category_lists_table',1),
+ (8,'2023_08_21_180853_create_sub_category_lists_table',1),
+ (9,'2023_08_21_180854_create_product_lists_table',1),
+ (10,'2023_08_21_192132_add_access_role_to_user_table',1),
+ (11,'2023_09_04_204141_add_to__access_role_list',2),
+ (12,'2023_09_04_204341_add_to_access_detail_list',3),
+ (13,'2023_09_04_204504_add_to_category_list',3),
+ (14,'2023_09_04_204536_add_to_sub_category_list',3),
+ (15,'2023_09_04_204622_add_to_product_list',3),
+ (18,'2023_09_04_204755_add_to_user',4),
+ (29,'2023_09_04_205449_create_carts_table',5),
+ (30,'2023_09_04_205959_create_shopping_cart_items_table',5),
+ (33,'2023_09_14_194655_add_column_to_produc_list',6),
+ (40,'2023_10_03_180913_create_orders_table',7),
+ (41,'2023_10_03_184755_add_order_id_to_shopping_cart',7),
+ (42,'2023_10_04_163410_addpaymentstatustoorders',7),
+ (43,'2023_10_04_204756_create_vendors_table',8),
+ (44,'2023_10_10_180041_add_order_details_to_order',8),
+ (45,'2023_10_10_192156_add_order_full_name_to_s_c_i',9),
+ (46,'2023_10_10_192423_add_order_is_new_addr_name_to_s_c_i',10),
+ (47,'2023_10_11_183246_addisactiveto_vendors',11),
+ (49,'2023_10_11_185153_add_assigned_vendorsto_shopping_cart_item',12),
+ (50,'2023_10_25_194613_addstatustocartitems',13);
+INSERT INTO "users" ("id","name","email","email_verified_at","password","remember_token","created_at","updated_at","IsAdmin") VALUES (1,'Syed Ubaid','ubaid@123.com',NULL,'$2y$10$tcvCarvpHAeSY6V5MihoCuz.JhERxuzKTMkLgv84SilIxrOREFIIa',NULL,'2023-08-29 20:35:01','2023-08-29 20:35:01',1);
+INSERT INTO "personal_access_tokens" ("id","tokenable_type","tokenable_id","name","token","abilities","last_used_at","created_at","updated_at") VALUES (1,'App\Models\User',1,'ApiLoginToken','123f0d1e14c5e95c517e4e080d58219676299fe71e45d947341ca0e10d901102','["*"]',NULL,'2023-08-29 20:35:35','2023-08-29 20:35:35'),
+ (2,'App\Models\User',1,'ApiLoginToken','33b61f0e6c3e7967f1bab98bb6addc22510ce2194c60455ab6494a7391641fe7','["*"]','2023-08-29 20:52:56','2023-08-29 20:40:12','2023-08-29 20:52:56'),
+ (3,'App\Models\User',1,'ApiLoginToken','142c7e4b4bae7f4f4f894739bdd9cf834249fcb70c03af69d084ad13ba42b9a5','["*"]','2023-08-30 21:02:31','2023-08-30 17:45:24','2023-08-30 21:02:31'),
+ (4,'App\Models\User',1,'ApiLoginToken','1ed665e6ebdab1c022167afc033bf897a7058ef658a3edf6770ea9863274f410','["*"]','2023-10-25 20:23:11','2023-08-30 20:22:11','2023-10-25 20:23:11'),
+ (5,'App\Models\User',1,'ApiLoginToken','f62ee29d6ff61de7b263b8a7aa7645f49a45e6568e18dda32212a70b28011a56','["*"]','2023-08-31 17:58:03','2023-08-31 17:54:53','2023-08-31 17:58:03'),
+ (6,'App\Models\User',1,'ApiLoginToken','b539c0359c32b6316bdecfbcb3be801b1c89bd7a92f5b05bdba1efd5648bf63e','["*"]','2023-08-31 18:02:39','2023-08-31 17:58:44','2023-08-31 18:02:39'),
+ (7,'App\Models\User',1,'ApiLoginToken','7fac8c78ad54322e5dae2285441149794fccb61c2a43c0f0701c7b976a176be0','["*"]','2023-08-31 18:05:19','2023-08-31 18:03:37','2023-08-31 18:05:19'),
+ (8,'App\Models\User',1,'ApiLoginToken','10ef96f8dc444ddab85ba84a4bef38dad72535269f6427a6df7609e8430af521','["*"]','2023-08-31 18:11:10','2023-08-31 18:08:13','2023-08-31 18:11:10'),
+ (9,'App\Models\User',1,'ApiLoginToken','19710db869e14fad87faaaa5fcf947f88059210a2f1502c245eb4209551abeab','["*"]','2023-08-31 18:13:49','2023-08-31 18:11:40','2023-08-31 18:13:49'),
+ (10,'App\Models\User',1,'ApiLoginToken','ea5ddd6343300d709d09bb4a5f358c4f5cd65caa6a1c17ee82846ddb4064b03a','["*"]',NULL,'2023-08-31 18:14:17','2023-08-31 18:14:17'),
+ (11,'App\Models\User',1,'ApiLoginToken','4b672a192f937623734e99b2f2e4d558e997ef7b582c06c31f4152a41b688cb8','["*"]','2023-08-31 18:16:49','2023-08-31 18:15:38','2023-08-31 18:16:49'),
+ (12,'App\Models\User',1,'ApiLoginToken','8b198d4488f419eb1e0642007abfc9201b700daae548d961db8a7295feddcf4a','["*"]','2023-08-31 18:21:50','2023-08-31 18:18:53','2023-08-31 18:21:50'),
+ (13,'App\Models\User',1,'ApiLoginToken','1b74afa594b3667ac2ba55af396e73c37e8da1f94b9807514454f1341cb40f59','["*"]','2023-08-31 18:25:19','2023-08-31 18:22:26','2023-08-31 18:25:19'),
+ (14,'App\Models\User',1,'ApiLoginToken','f14089549752fecccfcd76d7dd6216128b57412f7dcf63ef6c569f7d5ce4d0ee','["*"]','2023-08-31 21:05:23','2023-08-31 18:26:09','2023-08-31 21:05:23'),
+ (15,'App\Models\User',1,'ApiLoginToken','f68db76ee5c02cbaa25ffc0220ec9a22718d5112d16c0abc64ecf6d38cab1677','["*"]','2023-08-31 20:11:32','2023-08-31 19:50:45','2023-08-31 20:11:32'),
+ (16,'App\Models\User',1,'ApiLoginToken','e54fcd9c6a69d2779d4da814601af4718cc512a34e8ee34ba95cea18539a2b88','["*"]','2023-09-05 18:11:46','2023-09-05 17:21:37','2023-09-05 18:11:46'),
+ (17,'App\Models\User',1,'ApiLoginToken','50f86391e2d3133fd5bcc7d05d3b9b32a54823ceba24c484ee18f9749f1d1eec','["*"]','2023-09-20 17:53:47','2023-09-20 17:52:18','2023-09-20 17:53:47'),
+ (18,'App\Models\User',1,'ApiLoginToken','786a45d60d7f1bea9b4daa6c314ad7ab91a2e70046b4b40bd521951372d00707','["*"]','2023-09-20 17:57:03','2023-09-20 17:55:09','2023-09-20 17:57:03'),
+ (19,'App\Models\User',1,'ApiLoginToken','6975af89b3023a47deadc290db0c8d9a21312fdc57bd7c48004ed1a715853adc','["*"]','2023-09-20 17:58:26','2023-09-20 17:57:54','2023-09-20 17:58:26'),
+ (20,'App\Models\User',1,'ApiLoginToken','885a47fa85228ae9f289811c69f230f103b5e3487743429541e3d623cda3bfc7','["*"]',NULL,'2023-09-20 17:59:16','2023-09-20 17:59:16'),
+ (21,'App\Models\User',1,'ApiLoginToken','be6c5445dff6ffcfb8536530530ea3efd13b16005b54c720ebe14a1dfe7952cb','["*"]','2023-09-20 18:27:04','2023-09-20 18:00:00','2023-09-20 18:27:04'),
+ (22,'App\Models\User',1,'ApiLoginToken','1938a02561d8d9a8c0474067b6be3509cae786ef9d6fe9f72f619612ea2b6858','["*"]','2023-09-20 19:11:36','2023-09-20 18:35:12','2023-09-20 19:11:36'),
+ (23,'App\Models\User',1,'ApiLoginToken','429402e9da69da4ecc2036a26ca4abc5044252e44e7b7d9fb0fda0e40694b179','["*"]','2023-09-22 20:54:37','2023-09-22 17:31:06','2023-09-22 20:54:37'),
+ (24,'App\Models\User',1,'ApiLoginToken','e88405f96c90faf23aa470f8d6f67bd251a0dc3738f3c5a8c710ba49182b07bc','["*"]','2023-09-27 20:50:46','2023-09-27 18:14:06','2023-09-27 20:50:46'),
+ (25,'App\Models\User',1,'ApiLoginToken','b0e3376a2773be65b3123b879a384103597e8823f944bb0737299b3f3dc6ee73','["*"]','2023-09-28 20:50:02','2023-09-28 17:55:56','2023-09-28 20:50:02'),
+ (26,'App\Models\User',1,'ApiLoginToken','f88c938a70e0bd5351fd5233c3c8366beeef5d4aa696a8fa6d82cd7a7f06b281','["*"]','2023-10-02 18:04:40','2023-10-02 18:01:53','2023-10-02 18:04:40'),
+ (27,'App\Models\User',1,'ApiLoginToken','b3121a53f6bf724b4b05aad7ad773b73c5848297965a3b56523c0851dd3839f9','["*"]','2023-10-02 18:05:18','2023-10-02 18:04:40','2023-10-02 18:05:18'),
+ (28,'App\Models\User',1,'ApiLoginToken','0aa32a40653fbcab2c086dbc4bf9edf5d5dd61c0b5f727089c269f7069eab09e','["*"]','2023-10-02 21:11:14','2023-10-02 18:05:18','2023-10-02 21:11:14'),
+ (29,'App\Models\User',1,'ApiLoginToken','44c1552d2d081c51f6558370b39ae573d3e38ba2031a4be15b88fffb6ed3e4a5','["*"]','2023-10-03 20:59:33','2023-10-03 18:02:59','2023-10-03 20:59:33'),
+ (30,'App\Models\User',1,'ApiLoginToken','bb32dc277d666f5f9738449ab0c9ba5fbf8769e90489d541080b51e08feea8b4','["*"]','2023-10-04 20:47:10','2023-10-04 20:33:56','2023-10-04 20:47:10'),
+ (31,'App\Models\User',1,'ApiLoginToken','ad2bf51ffa0a8df68183840e165025a7c78518fe0cdce3466bec2b0570e2289b','["*"]','2023-10-05 20:31:44','2023-10-05 18:07:46','2023-10-05 20:31:44'),
+ (32,'App\Models\User',1,'ApiLoginToken','0e618acbf4469f30d29db4e4999e75c2a6cec0ead59fd15fe2fb4c89011fecb3','["*"]','2023-10-10 18:09:02','2023-10-10 18:08:50','2023-10-10 18:09:02'),
+ (33,'App\Models\User',1,'ApiLoginToken','093f491f13854ac371d42c66b7a791c6f29c4b13c72b4b28ef01575d52c7f88e','["*"]','2023-10-10 18:11:05','2023-10-10 18:09:40','2023-10-10 18:11:05'),
+ (34,'App\Models\User',1,'ApiLoginToken','dc510d5e01deecc861f5e07691d68079552d7c3c8935fd3573784ea2782ace82','["*"]','2023-10-10 18:11:05','2023-10-10 18:11:04','2023-10-10 18:11:05'),
+ (35,'App\Models\User',1,'ApiLoginToken','93eec43e4fc98e6a76b40266f09278b6a3156885946553246e73794ade04b4f6','["*"]',NULL,'2023-10-10 18:13:29','2023-10-10 18:13:29'),
+ (36,'App\Models\User',1,'ApiLoginToken','6545c891c677620c6946f29e8d7dc48ef723e5c525808e8f8a8d12b410a3f310','["*"]','2023-10-10 18:14:29','2023-10-10 18:14:21','2023-10-10 18:14:29'),
+ (37,'App\Models\User',1,'ApiLoginToken','43fe4b1dec722ed1bb09c76c69fb762f1447d59ae266773f3e118b5a75809716','["*"]','2023-10-10 18:20:51','2023-10-10 18:18:25','2023-10-10 18:20:51'),
+ (38,'App\Models\User',1,'ApiLoginToken','7fa710b62cc64c2d38d03ae7f7eb26c1ef26fca981b4b300d1c2750be502a0ee','["*"]',NULL,'2023-10-10 18:21:28','2023-10-10 18:21:28'),
+ (39,'App\Models\User',1,'ApiLoginToken','073be69e6e044c4ee51fe8c8924fe2fb0421f7d336152189a626cd3da5f96edc','["*"]',NULL,'2023-10-10 18:23:22','2023-10-10 18:23:22'),
+ (40,'App\Models\User',1,'ApiLoginToken','495cee0c60a163f6f56bde60b0ad0f180d3e2b9df819dcce3c09ea5bcb6f4c9b','["*"]',NULL,'2023-10-10 18:25:18','2023-10-10 18:25:18'),
+ (41,'App\Models\User',1,'ApiLoginToken','93308f2cf1640fb92e8bafd0e1a6f3ef66709aee41b6121d2ddef9fb4e909e00','["*"]',NULL,'2023-10-10 18:25:45','2023-10-10 18:25:45'),
+ (42,'App\Models\User',1,'ApiLoginToken','3a379c832476d60132a6e8760c98871baa492bef91f9ed36aae53b0625801148','["*"]','2023-10-10 18:31:04','2023-10-10 18:28:25','2023-10-10 18:31:04'),
+ (43,'App\Models\User',1,'ApiLoginToken','ab0017fd1c364be5eb411e25f15b3c8f2eb18988b552c0b25cb7e54d4411b987','["*"]',NULL,'2023-10-10 18:31:41','2023-10-10 18:31:41'),
+ (44,'App\Models\User',1,'ApiLoginToken','733a16b31d7f57118f2dd746de84ada443ec9ff678955ad8623939fa5ffb3800','["*"]','2023-10-10 18:32:55','2023-10-10 18:32:38','2023-10-10 18:32:55'),
+ (45,'App\Models\User',1,'ApiLoginToken','abaf3c027a7a5d81e5c41432ac0157d7c9e9cf79ea308f4c575e6dcdce480799','["*"]','2023-10-10 18:35:11','2023-10-10 18:33:33','2023-10-10 18:35:11'),
+ (46,'App\Models\User',1,'ApiLoginToken','c4794f7bdd53b0d9d97ae41d533b50f9ac6672f106c4686c53971db63ef9bd06','["*"]',NULL,'2023-10-10 18:35:33','2023-10-10 18:35:33'),
+ (47,'App\Models\User',1,'ApiLoginToken','e30c19501a533f9461215f18abfa3b384a0be2d7a746c40b0cd2f9c5028123db','["*"]','2023-10-10 18:37:03','2023-10-10 18:37:02','2023-10-10 18:37:03'),
+ (48,'App\Models\User',1,'ApiLoginToken','77a7a527b214701c681f17148fa0be3277c886b5cb3a26c404ecbe770cce4103','["*"]','2023-10-10 20:59:08','2023-10-10 18:37:37','2023-10-10 20:59:08'),
+ (49,'App\Models\User',1,'ApiLoginToken','8593aacccac4ad99981ac4a333b4f1ef264d0af386ee4c3a2607737bf4d845e5','["*"]','2023-10-11 20:19:17','2023-10-11 17:45:46','2023-10-11 20:19:17'),
+ (50,'App\Models\User',1,'ApiLoginToken','68431236be33d93be2658662ef577108f75daf5e1e6eb3858ae83d3d88c0dbd9','["*"]','2023-10-13 20:34:30','2023-10-11 20:21:22','2023-10-13 20:34:30'),
+ (51,'App\Models\User',1,'ApiLoginToken','cfcbdef9c84003d258127dcfd337f406f1eaff6e1895a359e56b164a5039da99','["*"]','2023-10-14 21:06:40','2023-10-14 19:45:57','2023-10-14 21:06:40'),
+ (52,'App\Models\User',1,'ApiLoginToken','54fd9caaeea06d8fd083f47caf07d1b69fef94511cd367e80c977c1a69c4be35','["*"]','2023-10-16 20:57:05','2023-10-16 19:59:55','2023-10-16 20:57:05'),
+ (53,'App\Models\User',1,'ApiLoginToken','7504e600415b35d81e98e8076af9e30f68a0ef69f1561b2782c86a85cf61a801','["*"]','2023-10-20 18:58:29','2023-10-20 17:54:55','2023-10-20 18:58:29'),
+ (54,'App\Models\User',1,'ApiLoginToken','4163669d1a3d8e35565b724091a03c57aac62253c25b917184bb56000982377a','["*"]','2023-10-25 20:33:25','2023-10-20 18:58:50','2023-10-25 20:33:25');
+INSERT INTO "AccessRoleList" ("id","RoleName","created_at","updated_at","CreatedBy","UpdatedBy") VALUES (1,'Default',NULL,NULL,'-','-');
+INSERT INTO "CategoryList" ("id","CategoryName","IsActive","created_at","updated_at","CreatedBy","UpdatedBy") VALUES (1,'Birthday Card',1,NULL,NULL,'-','-'),
+ (2,'Birthday Card',1,NULL,NULL,'-','-'),
+ (3,'Pakistan',1,NULL,NULL,'-','-'),
+ (4,'Holidays',1,NULL,NULL,'-','-'),
+ (5,'Christmas',1,NULL,NULL,'-','-'),
+ (6,'test',1,NULL,NULL,'-','-'),
+ (7,'test2',1,NULL,NULL,'-','-'),
+ (8,'Eid Cards',1,NULL,NULL,'-','-'),
+ (9,'Birthday Card',1,NULL,NULL,'-','-');
+INSERT INTO "SubCategoryList" ("id","SubCategoryName","Category","IsActive","created_at","updated_at","CreatedBy","UpdatedBy") VALUES (1,'1- 5 years',1,1,NULL,NULL,'-','-'),
+ (2,'Shopping Card',3,1,NULL,NULL,'-','-'),
+ (3,'New',2,1,NULL,NULL,'-','-'),
+ (4,'test',3,1,NULL,NULL,'-','-'),
+ (5,'Christmas',5,1,NULL,NULL,'-','-'),
+ (6,'Holidays',4,1,NULL,NULL,'-','-');
+INSERT INTO "ShoppingCartItems" ("id","Product","CartID","GrossAmount","Discount","NetAmount","Message","Signature","created_at","updated_at","StreetAddress","City","State","Country","FullName","MobileNo","NewAddress","AssignedVendor","Status") VALUES (99,4,62,100.0,0.0,100.0,'<p>pak</p>','hello','2023-10-10 19:37:32','2023-10-11 20:22:02','gulbreg3 street number09','lahore','UT','Pakistan','MuhammadYousaf','3060711506',1,2,'Pending'),
+ (100,4,63,100.0,0.0,100.0,'<p>ali</p>','umar','2023-10-11 18:15:09','2023-10-11 18:15:09','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (101,3,64,200.0,0.0,200.0,'<p>ali</p>','arsaln','2023-10-11 18:20:07','2023-10-11 21:02:28','-','City','State','United States','FullName','-',0,2,'Pending'),
+ (102,3,64,200.0,0.0,200.0,'<p>ali</p>','arsaln','2023-10-11 18:20:19','2023-10-11 18:20:19','gulbreg3 street number09','lahore','Hard','Pakistan','MuhammadYousaf','14088132666',1,NULL,'Pending'),
+ (103,4,65,100.0,0.0,100.0,'<p>jj</p>','hh','2023-10-11 18:27:23','2023-10-11 20:15:39','-','City','State','United States','FullName','-',0,3,'Pending'),
+ (104,4,65,100.0,0.0,100.0,'<p>jj</p>','hh','2023-10-11 18:27:26','2023-10-11 20:38:44','-','City','State','United States','FullName','-',0,3,'Pending'),
+ (105,4,65,100.0,0.0,100.0,'<p>jj</p>','hh','2023-10-11 18:27:28','2023-10-11 18:27:28','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (106,4,65,100.0,0.0,100.0,'<p>jj</p>','hh','2023-10-11 18:27:30','2023-10-11 20:19:12','-','City','State','United States','FullName','-',0,2,'Pending'),
+ (107,7,66,500.0,0.0,500.0,'Hello! I''m just a computer program, so I don''t have feelings, but I''m here to help you with any questions or information you need. It seems like you''re trying to convey a message to your friend. If you''d like to write a birthday message or need assistance with anything specific, please feel free to ask, and I''ll be happy to help!','Muhammad Umar Yousaf','2023-10-13 19:21:49','2023-10-13 19:21:49','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (108,10,67,1500.0,0.0,1500.0,'Hello! I''m just a computer program, so I don''t have feelings, but I''m here to help you with any questions or information you need. It seems like you''re trying to convey a message to your friend. If you''d like to write a birthday message or need assistance with anything specific, please feel free to ask, and I''ll be happy to help!','Umar','2023-10-13 20:33:37','2023-10-14 20:39:10','-','City','State','United States','FullName','-',0,3,'Pending'),
+ (109,7,68,500.0,0.0,500.0,'Hi Dear,
+Hope you are doing fine.','Syed Ubaid','2023-10-14 20:40:03','2023-10-14 20:40:03','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (123,10,69,1500.0,0.0,1500.0,'If all of these aspects seem correct and the button is still not getting disabled, you might want to inspect your application more thoroughly, including checking for any errors in the browser''s console, to identify any issues that might not be immediately obvious from the code you provided.','Ali','2023-10-16 19:50:45','2023-10-16 19:50:45','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (148,5,70,16.0,0.0,16.0,'hellohwdidhwi','dwjd','2023-10-16 20:32:26','2023-10-16 20:32:26','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (149,10,71,1500.0,0.0,1500.0,'hi','hi','2023-10-16 20:53:05','2023-10-16 20:53:05','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (150,10,72,1500.0,0.0,1500.0,'hi','hdwihidw','2023-10-16 20:55:43','2023-10-16 20:55:43','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (151,10,72,1500.0,0.0,1500.0,'hi','hdwihidw','2023-10-16 20:55:46','2023-10-16 20:55:46','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (152,10,72,1500.0,0.0,1500.0,'hi','hdwihidw','2023-10-16 20:55:48','2023-10-16 20:55:48','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (153,9,73,1000.0,0.0,1000.0,'Hello world','Ali','2023-10-20 18:10:21','2023-10-20 18:10:21','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (154,9,73,1000.0,0.0,1000.0,'Hello world','Ali','2023-10-20 18:10:25','2023-10-20 18:10:25','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (155,9,73,1000.0,0.0,1000.0,'Hello world','Ali','2023-10-20 18:10:28','2023-10-20 18:10:28','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (156,9,73,1000.0,0.0,1000.0,'Hello world','Ali','2023-10-20 18:10:32','2023-10-20 18:10:32','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (158,5,74,16.0,0.0,16.0,'hdhod','ahdi','2023-10-20 21:16:10','2023-10-20 21:16:10','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (160,10,75,1500.0,0.0,1500.0,'umar','hi','2023-10-23 17:54:55','2023-10-23 17:54:55','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (161,5,76,16.0,0.0,16.0,'hello','ok','2023-10-23 19:13:37','2023-10-23 19:13:37','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (162,4,77,100.0,0.0,100.0,'helohi','hi','2023-10-23 19:40:25','2023-10-23 19:40:25','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (163,4,78,100.0,0.0,100.0,'hi','ok','2023-10-23 19:43:06','2023-10-23 19:43:06','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (164,10,79,1500.0,0.0,1500.0,'hehie','ocos','2023-10-23 19:47:17','2023-10-23 19:47:17','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (165,5,80,16.0,0.0,16.0,'hi','hi2','2023-10-23 20:50:08','2023-10-23 20:50:08','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (166,4,81,100.0,0.0,100.0,'ok','ok','2023-10-23 20:51:52','2023-10-23 20:51:52','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (167,9,82,1000.0,0.0,1000.0,'new','new','2023-10-23 21:03:46','2023-10-23 21:03:46','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (168,9,83,1000.0,0.0,1000.0,'once more','once more','2023-10-23 21:05:12','2023-10-24 19:03:31','-','City','State','United States','FullName','-',0,2,'Pending'),
+ (169,9,83,1000.0,0.0,1000.0,'once more','once more','2023-10-23 21:05:15','2023-10-23 21:05:15','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (170,9,83,1000.0,0.0,1000.0,'once more','once more','2023-10-23 21:05:17','2023-10-23 21:05:17','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (171,9,83,1000.0,0.0,1000.0,'once more','once more','2023-10-23 21:05:21','2023-10-23 21:09:19','-','City','State','United States','FullName','-',0,3,'Pending'),
+ (172,9,83,1000.0,0.0,1000.0,'once more','once more','2023-10-23 21:05:23','2023-10-23 21:05:23','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (173,9,83,1000.0,0.0,1000.0,'once more','once more','2023-10-23 21:05:26','2023-10-23 21:05:26','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (174,9,83,1000.0,0.0,1000.0,'once more','once more','2023-10-23 21:05:29','2023-10-23 21:09:44','-','City','State','United States','FullName','-',0,2,'Pending'),
+ (175,9,83,1000.0,0.0,1000.0,'once more','once more','2023-10-23 21:05:31','2023-10-23 21:05:31','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (176,9,83,1000.0,0.0,1000.0,'once more','once more','2023-10-23 21:05:34','2023-10-23 21:05:34','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (177,8,84,900.0,0.0,900.0,'today','today','2023-10-24 18:11:58','2023-10-24 18:11:58','gulbreg3 street number09','lahore','Hard','Pakistan','MuhammadYousaf','14088132666',1,NULL,'Pending'),
+ (178,7,85,500.0,0.0,500.0,'Muhammad Umar Yousaf, Hello World How Are You,','Pakistan','2023-10-24 19:10:35','2023-10-24 19:10:35','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (179,9,86,1000.0,0.0,1000.0,'ok','ok','2023-10-24 19:12:09','2023-10-24 19:12:09','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (180,9,86,1000.0,0.0,1000.0,'ok','ok','2023-10-24 19:12:12','2023-10-24 19:12:12','-','City','State','United States','FullName','-',0,NULL,'Pending'),
+ (181,7,87,500.0,0.0,500.0,'Happy Birthday, John! 🎉 May this special day be filled with joy, laughter, and wonderful memories that last a lifetime. On your birthday, I want to take a moment to celebrate the amazing person you are and the positive impact you''ve had on all our lives.','Muhammad Umar Yousaf','2023-10-24 20:43:39','2023-10-25 20:23:11','gulbreg3 street number09','lahore','Hard','Pakistan','MuhammadYousaf','14088132666',1,NULL,'Completed'),
+ (182,2,88,200.0,0.0,200.0,'Happy Birthday, John!
+May this special day be filled with joy, laughter, and wonderful memories that last a lifetime.On your birthday, I want to take a moment to celebrate the amazing person you are and the positive impact you''ve had on all our lives.','ali','2023-10-25 17:31:48','2023-10-25 17:36:00','-','City','State','United States','FullName','-',0,2,'Pending'),
+ (183,7,89,500.0,0.0,500.0,'ok','ok','2023-10-25 17:59:00','2023-10-25 20:24:26','-','City','State','United States','FullName','-',0,NULL,'Completed');
+INSERT INTO "ProductList" ("id","ProductName","SubCateogry","Price","Artist","File1","File2","File3","File4","UploadedBy","UpdatedBy","created_at","updated_at","IsActive") VALUES (2,'ABC',1,200.0,'-','1694380165file1.jpg','1694380165-file2.jpg','1694380165-file3.jpg','1694380165-file4.jpg','Syed Ubaid','Syed Ubaid','2023-09-10 21:09:25','2023-09-10 21:09:25',1),
+ (3,'ABC',1,200.0,'-','1694721552file1.jpg','1694721552-file2.jpg','1694721552-file3.jpg','1694721552-file4.jpg','Syed Ubaid','Syed Ubaid','2023-09-14 19:59:12','2023-09-14 19:59:12',1),
+ (4,'birthday',1,100.0,'-','1695236225-file1.jpg','1695236225-file2.jpg','1695236225-file3.jpg','1695236225-file4.jpg','Syed Ubaid','Syed Ubaid','2023-09-20 18:57:05','2023-09-20 18:57:05',1),
+ (5,'birthday12',1,16.0,'-','1695406149-file1.jpg','1695406149-file2.jpg','1695406149-file3.jpg','1695406149-file4.jpg','Syed Ubaid','Syed Ubaid','2023-09-22 18:09:09','2023-09-22 18:09:09',0),
+ (6,'aaaaa',1,200.0,'-','1695838554-file1.png','1695838554-file2.png','1695838554-file3.png','1695838554-file4.png','Syed Ubaid','Syed Ubaid','2023-09-27 18:15:54','2023-09-27 18:15:54',1),
+ (7,'Birthday Card',1,500.0,'-','1697220909-file1.png','1697220909-file2.png','1697220909-file3.png','1697220909-file4.png','Syed Ubaid','Syed Ubaid','2023-10-13 18:15:09','2023-10-13 18:15:09',1),
+ (8,'Holidays Card',1,900.0,'-','1697226737-file1.png','1697226737-file2.png','1697226737-file3.png','1697226737-file4.png','Syed Ubaid','Syed Ubaid','2023-10-13 19:52:17','2023-10-13 19:52:17',1),
+ (9,'Christmas Card',1,1000.0,'-','1697226845-file1.jpg','1697226845-file2.png','1697226845-file3.png','1697226845-file4.png','Syed Ubaid','Syed Ubaid','2023-10-13 19:54:05','2023-10-13 19:54:05',1),
+ (10,'Holidays Card',6,1500.0,'-','1697227772-file1.jpg','1697227772-file2.png','1697227772-file3.png','1697227772-file4.png','Syed Ubaid','Syed Ubaid','2023-10-13 20:09:32','2023-10-13 20:09:32',1);
+INSERT INTO "ShoppingCart" ("id","CartCode","UserID","GrossAmount","Discount","NetAmount","ProductCount","Currency","IsCompleted","IsCheckedOut","IsPaid","created_at","updated_at","OrderId") VALUES (62,'',NULL,100.0,0.0,100.0,0,'USD',0,1,1,'2023-10-10 19:37:32','2023-10-10 19:38:15',11),
+ (63,'',NULL,100.0,0.0,100.0,0,'USD',0,1,1,'2023-10-11 18:15:09','2023-10-11 18:16:09',12),
+ (64,'',NULL,400.0,0.0,400.0,0,'USD',0,1,1,'2023-10-11 18:20:07','2023-10-11 18:21:11',13),
+ (65,'',NULL,400.0,0.0,400.0,0,'USD',0,1,1,'2023-10-11 18:27:23','2023-10-11 18:28:15',14),
+ (66,'',NULL,500.0,0.0,500.0,0,'USD',0,1,1,'2023-10-13 19:21:49','2023-10-13 19:24:21',15),
+ (67,'',NULL,1500.0,0.0,1500.0,0,'USD',0,1,1,'2023-10-13 20:33:37','2023-10-13 20:34:18',16),
+ (68,'SNhXZrHsXEWIrOVeH3BLaua4AI6HkTwe1697316003',NULL,500.0,0.0,500.0,0,'USD',0,0,0,'2023-10-14 20:40:03','2023-10-14 20:40:03',NULL),
+ (69,'',NULL,1500.0,0.0,1500.0,0,'USD',0,1,1,'2023-10-16 19:32:27','2023-10-16 19:59:17',17),
+ (70,'',NULL,16.0,0.0,16.0,0,'USD',0,1,1,'2023-10-16 20:01:52','2023-10-16 20:33:02',18),
+ (71,'',NULL,1500.0,0.0,1500.0,0,'USD',0,1,1,'2023-10-16 20:53:05','2023-10-16 20:55:07',19),
+ (72,'',NULL,4500.0,0.0,4500.0,0,'USD',0,1,1,'2023-10-16 20:55:43','2023-10-16 20:56:51',20),
+ (73,'',NULL,4000.0,0.0,4000.0,0,'USD',0,1,1,'2023-10-20 18:10:21','2023-10-20 18:11:51',21),
+ (74,'',NULL,16.0,0.0,16.0,0,'USD',0,1,1,'2023-10-20 21:16:10','2023-10-20 21:16:51',22),
+ (75,'',NULL,1500.0,0.0,1500.0,0,'USD',0,1,1,'2023-10-20 21:17:47','2023-10-23 17:55:57',23),
+ (76,'',NULL,16.0,0.0,16.0,0,'USD',0,1,1,'2023-10-23 19:13:37','2023-10-23 19:14:14',24),
+ (77,'',NULL,100.0,0.0,100.0,0,'USD',0,1,1,'2023-10-23 19:40:25','2023-10-23 19:40:57',25),
+ (78,'',NULL,100.0,0.0,100.0,0,'USD',0,1,1,'2023-10-23 19:43:06','2023-10-23 19:43:37',26),
+ (79,'',NULL,1500.0,0.0,1500.0,0,'USD',0,1,1,'2023-10-23 19:47:17','2023-10-23 19:47:47',27),
+ (80,'',NULL,16.0,0.0,16.0,0,'USD',0,1,1,'2023-10-23 20:50:08','2023-10-23 20:50:39',28),
+ (81,'',NULL,100.0,0.0,100.0,0,'USD',0,1,1,'2023-10-23 20:51:52','2023-10-23 20:52:20',29),
+ (82,'',NULL,1000.0,0.0,1000.0,0,'USD',0,1,1,'2023-10-23 21:03:46','2023-10-23 21:04:15',30),
+ (83,'',NULL,9000.0,0.0,9000.0,0,'USD',0,1,1,'2023-10-23 21:05:12','2023-10-23 21:06:03',31),
+ (84,'',NULL,900.0,0.0,900.0,0,'USD',0,1,1,'2023-10-24 18:11:58','2023-10-24 18:12:42',32),
+ (85,'',NULL,500.0,0.0,500.0,0,'USD',0,1,1,'2023-10-24 19:10:35','2023-10-24 19:11:19',33),
+ (86,'',NULL,2000.0,0.0,2000.0,0,'USD',0,1,1,'2023-10-24 19:12:09','2023-10-24 19:12:45',34),
+ (87,'',NULL,500.0,0.0,500.0,0,'USD',0,1,1,'2023-10-24 20:43:39','2023-10-24 20:44:32',35),
+ (88,'',NULL,200.0,0.0,200.0,0,'USD',0,1,1,'2023-10-25 17:31:48','2023-10-25 17:32:29',36),
+ (89,'',NULL,500.0,0.0,500.0,0,'USD',1,1,1,'2023-10-25 17:59:00','2023-10-25 20:24:26',37);
+INSERT INTO "Orders" ("id","FullName","StreetAddress","City","State","Country","PostalCode","Email","Mobile","PaymentReference","PaymentMethod","created_at","updated_at","PaymentStatus") VALUES (1,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200',NULL,NULL,'6DN26428V71088340','Paypal','2023-10-04 20:09:15','2023-10-04 20:09:15','COMPLETED'),
+ (2,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200',NULL,NULL,'2KT54948KK847421F5679','Paypal','2023-10-04 20:19:41','2023-10-04 20:19:41','Unknown'),
+ (3,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200',NULL,NULL,'0UY779338R8098153','Paypal','2023-10-04 20:22:47','2023-10-04 20:22:47','COMPLETED'),
+ (4,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200',NULL,NULL,'1YA03189YT341760U5679','Paypal','2023-10-04 20:24:08','2023-10-04 20:24:08','Unknown'),
+ (5,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200',NULL,NULL,'6HD07724VA222045X','Paypal','2023-10-04 20:25:18','2023-10-04 20:25:18','COMPLETED'),
+ (6,'MuhammadYousaf','gulbreg3 street number09','lahore','Utah','Pakistan','35200','ua46792@gmail.com','14088132666','9UG81478YR092212E','Paypal','2023-10-04 20:31:28','2023-10-04 20:31:28','COMPLETED'),
+ (7,'MuhammadYousaf','gulbreg3 street number09','lahore','Katy','Pakistan','35200','ua46792@gmail.com','123123121','2XK30553S68239326','Paypal','2023-10-05 19:04:03','2023-10-05 19:04:03','COMPLETED'),
+ (8,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','0RA58004512649030','Paypal','2023-10-05 20:03:19','2023-10-05 20:03:19','COMPLETED'),
+ (9,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','8X867208PU7927414','Paypal','2023-10-05 20:20:46','2023-10-05 20:20:46','COMPLETED'),
+ (10,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','1FV36384XG828834S','Paypal','2023-10-05 20:29:51','2023-10-05 20:29:51','COMPLETED'),
+ (11,'MuhammadYousaf','gulbreg3 street number09','lahore','UT','Pakistan','35200','ua46792@gmail.com','3060711506','0MP04481D3598520M','Paypal','2023-10-10 19:38:15','2023-10-10 19:38:15','COMPLETED'),
+ (12,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','6VS66747AL4673609','Paypal','2023-10-11 18:16:09','2023-10-11 18:16:09','COMPLETED'),
+ (13,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','9CS604629U1470113','Paypal','2023-10-11 18:21:11','2023-10-11 18:21:11','COMPLETED'),
+ (14,'MuhammadYousaf','gulbreg3 street number09','lahore','IL','Pakistan','35200','ua46792@gmail.com','14088132666','72853381G66627725','Paypal','2023-10-11 18:28:15','2023-10-11 18:28:15','COMPLETED'),
+ (15,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','75P65832WL0978333','Paypal','2023-10-13 19:24:21','2023-10-13 19:24:21','COMPLETED'),
+ (16,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','2LS54813KU818431F','Paypal','2023-10-13 20:34:18','2023-10-13 20:34:18','COMPLETED'),
+ (17,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','7H593977F3409841M','Paypal','2023-10-16 19:59:17','2023-10-16 19:59:17','COMPLETED'),
+ (18,'MuhammadYousaf','gulbreg3 street number09','lahore','IL','Pakistan','35200','ua46792@gmail.com','3060711506','1C3985368T949341B','Paypal','2023-10-16 20:33:02','2023-10-16 20:33:02','COMPLETED'),
+ (19,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','3ET59318A8464242H','Paypal','2023-10-16 20:55:07','2023-10-16 20:55:07','COMPLETED'),
+ (20,'MuhammadYousaf','gulbreg3 street number09','lahore','IL','Pakistan','35200','ua46792@gmail.com','14088132666','0HH91621026999944','Paypal','2023-10-16 20:56:51','2023-10-16 20:56:51','COMPLETED'),
+ (21,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','9PX71352Y7544252H','Paypal','2023-10-20 18:11:51','2023-10-20 18:11:51','COMPLETED'),
+ (22,'MuhammadYousaf','gulbreg3 street number09','lahore','IL','Pakistan','35200','ua46792@gmail.com','14088132666','59W21162G9768543K','Paypal','2023-10-20 21:16:51','2023-10-20 21:16:51','COMPLETED'),
+ (23,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','6SP54891ES1064704','Paypal','2023-10-23 17:55:57','2023-10-23 17:55:57','COMPLETED'),
+ (24,'MuhammadYousaf','gulbreg3 street number09','lahore','UT','Pakistan','35200','ua46792@gmail.com','14088132666','6DD36196U6211920M','Paypal','2023-10-23 19:14:14','2023-10-23 19:14:14','COMPLETED'),
+ (25,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','4H434878NF557382L','Paypal','2023-10-23 19:40:57','2023-10-23 19:40:57','COMPLETED'),
+ (26,'MuhammadYousaf','gulbreg3 street number09','lahore','UT','Pakistan','35200','ua46792@gmail.com','3060711506','6S685012WA769060V','Paypal','2023-10-23 19:43:37','2023-10-23 19:43:37','COMPLETED'),
+ (27,'MuhammadYousaf','gulbreg3 street number09','lahore','UT','Pakistan','35200','ua46792@gmail.com','14088132666','1HX06080R91723532','Paypal','2023-10-23 19:47:47','2023-10-23 19:47:47','COMPLETED'),
+ (28,'MuhammadYousaf','gulbreg3 street number09','lahore','UT','Pakistan','35200','ua46792@gmail.com','14088132666','5B828837897682023','Paypal','2023-10-23 20:50:39','2023-10-23 20:50:39','COMPLETED'),
+ (29,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','9T3910763R346770D','Paypal','2023-10-23 20:52:20','2023-10-23 20:52:20','COMPLETED'),
+ (30,'MuhammadYousaf','gulbreg3 street number09','lahore','UT','Pakistan','35200','ua46792@gmail.com','14088132666','9V2452019B9286253','Paypal','2023-10-23 21:04:15','2023-10-23 21:04:15','COMPLETED'),
+ (31,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','0LM76646625144043','Paypal','2023-10-23 21:06:03','2023-10-23 21:06:03','COMPLETED'),
+ (32,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','8P380190M2693992C','Paypal','2023-10-24 18:12:42','2023-10-24 18:12:42','COMPLETED'),
+ (33,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','4YX49649HL2420744','Paypal','2023-10-24 19:11:19','2023-10-24 19:11:19','COMPLETED'),
+ (34,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','3060711506','5HY75051B7707890N','Paypal','2023-10-24 19:12:45','2023-10-24 19:12:45','COMPLETED'),
+ (35,'MuhammadYousaf','gulbreg3 street number09','lahore','punjab','Pakistan','35200','ua46792@gmail.com','14088132666','71K45711T4712583B','Paypal','2023-10-24 20:44:32','2023-10-24 20:44:32','COMPLETED'),
+ (36,'MuhammadYousaf','gulbreg3 street number09','lahore','Hard','Pakistan','35200','ua46792@gmail.com','14088132666','33B74775JJ7033251','Paypal','2023-10-25 17:32:29','2023-10-25 17:32:29','COMPLETED'),
+ (37,'MuhammadYousaf','gulbreg3 street number09','lahore','UT','Pakistan','35200','ua46792@gmail.com','14088132666','1GE00175500008804','Paypal','2023-10-25 18:00:48','2023-10-25 18:00:48','COMPLETED');
+INSERT INTO "Vendors" ("id","VendorName","Address","BankAccountNo","ContactNumber","Rate","CreatedBy","UpdatedBy","Email","created_at","updated_at","IsActive") VALUES (1,'asdsdads','gulbreg3 street number09,lahore,Hard','12','3060711506',12.0,'-','text','ua46792@gmail.com','2023-10-10 20:22:07','2023-10-10 20:22:07',1),
+ (2,'Muhammad Umar Yousaf','gulbreg3 street number09,lahore,Hard','77777777777777780','3060711506',73.0,'-','text','ua46792@gmail.com','2023-10-10 20:59:03','2023-10-10 20:59:03',0),
+ (3,'Arsalan Ahmad','gulbreg3 street number09,lahore,Hard','424242442424242400','14088132666',89273266.0,'-','text','ua46792@gmail.com','2023-10-11 18:37:52','2023-10-11 18:37:52',0),
+ (4,'Muhammad Umar Yousaf','gulbreg3 street number09,lahore,UT','0','3060711506',888888.0,'-','text','ua46792@gmail.com','2023-10-11 18:40:06','2023-10-11 18:40:06',1);
+DROP INDEX IF EXISTS "users_email_unique";
+CREATE UNIQUE INDEX IF NOT EXISTS "users_email_unique" ON "users" (
+	"email"
+);
+DROP INDEX IF EXISTS "password_resets_email_index";
+CREATE INDEX IF NOT EXISTS "password_resets_email_index" ON "password_resets" (
+	"email"
+);
+DROP INDEX IF EXISTS "failed_jobs_uuid_unique";
+CREATE UNIQUE INDEX IF NOT EXISTS "failed_jobs_uuid_unique" ON "failed_jobs" (
+	"uuid"
+);
+DROP INDEX IF EXISTS "personal_access_tokens_tokenable_type_tokenable_id_index";
+CREATE INDEX IF NOT EXISTS "personal_access_tokens_tokenable_type_tokenable_id_index" ON "personal_access_tokens" (
+	"tokenable_type",
+	"tokenable_id"
+);
+DROP INDEX IF EXISTS "personal_access_tokens_token_unique";
+CREATE UNIQUE INDEX IF NOT EXISTS "personal_access_tokens_token_unique" ON "personal_access_tokens" (
+	"token"
+);
+COMMIT;
