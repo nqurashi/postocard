@@ -3,8 +3,6 @@
 /public/storage
 /storage/*.key
 /vendor
-.env
-.env.backup
 .phpunit.result.cache
 docker-compose.override.yml
 Homestead.json
@@ -15,5 +13,5 @@ yarn-error.log
 /.vscode
 /public/upwork-test.php
 /public/upwork-test-2.php
-*.sqlite
+
 
