@@ -1,0 +1,53 @@
+.single_card{
+    width: 100% !important;
+    padding: 0px 10px;
+    /* overflow-y: auto; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-top: 60px; */
+    background: aliceblue;
+
+}
+.single_card_main{
+    width: 100%;
+}
+.box{
+    border: 1px solid gray;
+}
+
+
+/* ================ flip_card_parent */
+.flip_card_parent {
+        width: 100%;
+        height: 400px;
+        perspective: 1000px; /* Add perspective for 3D effect */
+        position: relative;
+      }
+/* --------- butoon_editing */
+.butoon_editing{
+    margin: 10px 0px;
+    margin-top: 76px;
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    background-color: #F5A852;
+    padding: 5px;
+
+}
+.butoon_editing button{
+    border: 1px solid white;
+    padding: 6px 15px;
+    color: white;
+}
+
+
+/* =============== blank_box */
+.blank_box{
+        width: 300px;
+        height: 400px;
+        background-color: purple;
+}

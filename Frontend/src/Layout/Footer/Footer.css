@@ -1,0 +1,137 @@
+.footer {
+  padding: 30px 60px 10px 60px;
+  background: rgba(244, 158, 63, 0.9);
+  color: white;
+}
+.footer1 {
+  display: grid;
+  /* grid-template-columns: 0.4fr 0.4fr 0.4fr 1fr; */
+  grid-template-columns: 1fr;
+  border-bottom: 1px solid #4e4d93;
+  padding-bottom: 20px;
+}
+.footer1_box h2,
+.footer1_box4 h2 {
+  color: var(--White, #fff);
+  font-family: Poppins;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 7px;
+  font-weight: bold;
+}
+.footer1_box{
+  flex-wrap: wrap;
+}
+.footer1 ul {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+ }
+.footer1_box li {
+  list-style: none;
+  /* color: var(--White, #fff); */
+  color: rgb(228, 221, 221);
+  font-family: Poppins;
+  font-size: 14px;
+  padding: 7px 0px;
+  margin: 0px 2px;
+}
+.footer1_box4 {
+}
+
+.footer1_box4 .input {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 0.3fr;
+}
+.footer1_box4 .input input {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 15px 20px;
+  color: white;
+  outline: none;
+  border: none;
+}
+.footer1_box4 .input input::placeholder {
+  color: white;
+}
+.footer1_box4 .input button {
+  background-color: white;
+  color: black;
+}
+
+/* -----footer2 */
+.footer2 {
+  padding: 20px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer2_box1 h2 {
+  color: var(--White, #fff);
+  font-family: Poppins;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.footer2_box2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer2_box2 svg {
+  font-size: 23px;
+  cursor: pointer;
+}
+
+
+@media(max-width : 880px){
+  .footer1 {
+    grid-template-columns:   1fr;
+    gap: 20px;
+  }
+  
+}
+@media(max-width : 768px){
+  .footer1 {
+    grid-template-columns:    1fr;
+    gap: 20px;
+  }
+  .footer{
+    padding: 30px 10px 10px 10px;
+  }
+}
+
+@media(max-width : 500px){
+  .footer1 {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px 20px;
+  }
+  .footer1_box4 .input {
+    grid-template-columns: 1fr 1fr;
+  }
+  .footer2{
+    flex-direction: column;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
+  }
+}
+@media(max-width : 350px){
+
+  .footer1_box4 .input {
+    grid-template-columns: 1fr 1fr;
+  }
+  .footer1 {
+    padding: 20px 10px;
+  }
+}

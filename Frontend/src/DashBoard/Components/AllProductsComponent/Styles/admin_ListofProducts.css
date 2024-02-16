@@ -1,0 +1,27 @@
+/* =========== admin_ListofProducts */
+.admin_ListofProducts{
+    margin: 0px 40px;
+    border: 1px solid rgb(190, 189, 189);
+    padding: 20px 10px;
+}
+
+
+
+/* ========================  */
+/* ======================================= */
+/* =================================================== filter_header */
+.filter_header{
+    padding: 10px 2px;
+    border-bottom: 1px solid gray;
+}
+.filter_header input{
+    background-color: rgba(226, 223, 223, 0.603);
+    padding: 7px 10px;
+    outline: 1px solid rgba(192, 191, 191, 0.493);
+    border-radius: 6px;
+}
+.filter_header select{
+    background-color: rgba(226, 223, 223, 0.603);
+    border: 1px solid rgba(192, 191, 191, 0.493);
+    padding: 7px 10px;
+}

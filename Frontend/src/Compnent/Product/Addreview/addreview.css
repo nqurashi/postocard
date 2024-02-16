@@ -1,0 +1,121 @@
+.addreview {
+  margin: 20px 0px;
+  padding: 10px 0px;
+}
+.addreview h2 {
+  color: var(--text-color, #252b42);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px; /* 133.333% */
+  letter-spacing: 0.1px;
+  margin-bottom: 12px;
+}
+.ratting_star {
+  margin: 10px 0px;
+}
+.ratting_star p {
+  color: var(--text-color, #252b42);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 133.333% */
+  letter-spacing: 0.1px;
+}
+
+ .star {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  margin: 5px 0px;
+}
+.star svg {
+  cursor: pointer;
+  font-size: 23px;
+  margin: 0px 5px;
+}
+.add_review_box p {
+  color: var(--text-color, #252b42);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 133.333% */
+  margin: 10px 0px;
+  letter-spacing: 0.1px;
+}
+
+.add_review_box textarea{
+    width: 100%;
+    border: 1px solid #7373738e;
+    padding: 10px;
+    margin: 10px 0px;
+}
+.second_inputs{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+.second_inputs input{
+    width: 100%;
+    border: 1px solid #7373738e;
+    padding: 10px;
+    margin: 10px 0px;
+}
+.add_review_box button{
+    display: flex;
+padding: 15px 40px;
+flex-direction: column;
+align-items: center;
+gap: 10px;
+border-radius: 5px;
+background: #F49E3F;
+color: var(--light-text-color, #FFF);
+text-align: center;
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: 22px; /* 157.143% */
+letter-spacing: 0.2px;
+cursor: pointer;
+margin: 10px 0px;
+}
+
+/* -------------- all_reviews */
+.all_reviews{
+    height: 250px;
+    overflow: auto;
+}
+.all_reviews h2{
+    color: var(--text-color, #252b42);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px; /* 133.333% */
+    letter-spacing: 0.1px;
+    margin-bottom: 12px;
+}
+.review_single_box{
+    display: grid;
+    grid-template-columns: .1fr 1fr;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 15px;
+    margin: 10px 0px;
+}
+.review_single_box h1{
+    background-color: #252b42;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 23px;
+}
+.review_single_box p{
+  text-align: left;
+}

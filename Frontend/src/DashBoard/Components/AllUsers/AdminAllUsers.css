@@ -1,0 +1,15 @@
+.admin_user_table {
+  display: grid;
+  grid-template-columns: 0.7fr 1fr 0.5fr 0.5fr 0.5fr 0.5fr;
+  justify-content: start;
+  align-items: center;
+}
+
+.btn_admin_user {
+  background-color: #d0baf888;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 4px;
+}

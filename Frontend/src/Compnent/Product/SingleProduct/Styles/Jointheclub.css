@@ -1,0 +1,77 @@
+.Jointheclub{
+    margin: 20px 0px;
+    padding: 20px 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.Jointheclub h2{
+    color: var(--Dark-Primary, #2A254B);
+text-align: center;
+max-width: 450px;
+font-size: 36px;
+font-style: normal;
+font-weight: 400;
+line-height: 140%; /* 50.4px */
+}
+.Jointheclub p{
+    color: var(--Dark-Primary, #2A254B);
+text-align: center;
+max-width: 430px;
+margin: 15px 0px;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 150%; /* 24px */
+}
+.club_email_box{
+    width: 400px !important;
+    display: grid;
+    grid-template-columns: 1fr .3fr;
+}
+.club_email_box input{
+    color: var(--Dark-Primary, #2A254B);
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+width: 100%;
+padding: 10px 10px;
+border: 1px solid rgba(128, 128, 128, 0.438);
+outline: none;
+}
+.club_email_box button{
+    display: flex;
+padding: 10px 15px;
+text-align: center;
+background: #F49E3F;
+color: var(--White, #FFF);
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 150%; /* 24px */
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+
+/* ============= media  */
+@media(max-width:678px){
+    .Jointheclub{
+        padding: 20px 10px;
+    }
+    .club_email_box{
+        width: 100% !important;
+    }
+    .Jointheclub h2{
+        width: 100% !important;
+    }
+}
+
+@media(max-width : 360px){
+    .club_email_box{
+        grid-template-columns: 1fr .5fr;
+    }
+}

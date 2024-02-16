@@ -1,0 +1,6 @@
+.admin_user_table_analytics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: start;
+  align-items: center;
+}

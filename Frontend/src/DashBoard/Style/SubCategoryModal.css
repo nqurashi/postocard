@@ -1,0 +1,25 @@
+.filter_category{
+    box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    width: 300px;
+    height: 150px;
+    overflow: auto;
+    border-radius: 8px;
+    padding:  5px;
+
+}
+.filter_category p{
+    border-bottom: 1px solid rgba(173, 172, 172, 0.349);
+   cursor: pointer;
+   padding: 6px 0px;
+   margin: 2px 0px;
+}
+.form-group select{
+    outline: none;
+    border: 1px solid rgba(180, 178, 178, 0.678);
+
+    padding: 8px 5px;
+    background-color: rgba(180, 178, 178, 0.158) !important;
+    border-radius: 3px;
+}
+

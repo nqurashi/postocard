@@ -1,0 +1,29 @@
+.about_hero{
+    width: 100%;
+    /* background-color: #cccccc; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    height: 320px;
+    border-top: 1px solid rgb(194, 194, 194);
+    border-bottom: 1px solid rgb(194, 194, 194);
+    padding: 15px;
+    margin-bottom: 30px;
+    background: url("https://usa4you.com/wp-content/uploads/2015/09/About-Us-page-001-3.jpg")no-repeat center center/contain;
+    background-color: #91CFFE;
+
+}
+.about_hero h2{
+    font-size: 60px;
+    font-family: "poppines";
+    color: #F5A852;
+    font-weight: 600;
+}
+
+@media(max-width:600px){
+    .about_hero{
+        height: 250px;
+        margin-bottom: 0px;
+    }
+}

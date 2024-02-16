@@ -1,0 +1,55 @@
+.orders_box {
+  border-left: 1px solid #d4d4d4;
+  border-right: 1px solid #d4d4d4;
+  border-bottom: 1px solid #d4d4d4;
+  border-radius: 4px;
+}
+.order_box_header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  background-color: #f49e3f;
+  padding: 10px 20px;
+  border-radius: 4px;
+}
+.order_box_header p {
+  font-size: 16px;
+  font-weight: 600;
+}
+.user_order_boady {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  padding: 8px 20px;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #cacaca;
+}
+.user_order_boady img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: contain;
+  border: 1px solid #cacaca;
+}
+.user_order_boady button {
+  padding: 7px 20px;
+  border-radius: 4px;
+  color: white;
+  margin: 0px 2px;
+}
+
+@media (max-width: 1185px) {
+  .user_order_boady button {
+    padding: 7px 10px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .user_order_boady button {
+    padding: 7px 20px;
+    font-size: 20px;
+  }
+  .orders_box {
+    min-width: 900px;
+  }
+}

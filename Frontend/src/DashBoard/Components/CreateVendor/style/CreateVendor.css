@@ -1,0 +1,46 @@
+.CreateVendorCom{
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+}
+.CreateVendorCom h2{
+    font-size: 23px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.create_vindendor_box{
+    width: 600px;
+    padding: 7px;
+}
+.create_vindendor_input{
+    margin: 4px 0px;
+}
+.create_vindendor_input label{
+    display: block;
+    margin-bottom: 4px;
+    font-size: 17px;
+}
+.create_vindendor_input input{
+    width: 100%;
+    outline: none;
+    background-color: transparent;
+    border: 1px solid rgba(151, 150, 150, 0.507);
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+.CreateVendorCom button{
+    width: 100%;
+    padding: 6px 10px;
+    margin: 12px 0px;
+    background-color: #6363f3;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+}
+.shake{
+    border: 1px solid red !important;
+}

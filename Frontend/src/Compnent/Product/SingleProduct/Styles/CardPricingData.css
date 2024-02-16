@@ -1,0 +1,136 @@
+.CardPricingData h2{
+    color: #2A254B;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.CardPricingData p{
+    color: #12131A;
+font-size: 35px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+.price font{
+    color: gray;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 10px;
+    padding: 5px;
+    margin-right: 15px;
+    position: relative;
+}
+.price font::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 16px;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(83, 83, 83, 0.562);
+    z-index: 1;
+}
+.price .sold{
+    display: inline-flex;
+padding: 5px 18px 5px 18px;
+border-radius: 20px;
+background: #14BDA5;
+justify-content: flex-end;
+align-items: center;
+color: var(--light-text-color, #FFF);
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: 16px; /* 133.333% */
+letter-spacing: 0.2px;
+}
+.CardPricingData button{
+    display: inline-flex;
+padding: 16px 32px;
+align-items: flex-start;
+gap: 10px;
+background: #F49E3F;
+color: var(--White, #FFF);
+cursor: pointer;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 150%; /* 24px */
+}
+.CardPricingData button:disabled{
+    display: inline-flex;
+    cursor: not-allowed !important;
+padding: 16px 32px;
+align-items: flex-start;
+gap: 10px;
+background: #f49d3f98;
+color: var(--White, #FFF);
+cursor: pointer;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 150%; /* 24px */
+}
+
+/* ------------ CardPricingData_description */
+.CardPricingData_description {
+    margin: 40px 0px;
+    text-align: justify;
+  }
+  .CardPricingData_description h2 {
+    color: var(--text-color, #252b42);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px; /* 133.333% */
+    letter-spacing: 0.1px;
+    margin-bottom: 12px;
+  }
+  .CardPricingData_description p {
+    color: #2a254b;
+    font-size: 16px;
+    word-spacing: 0.5px;
+    line-height: normal;
+  }
+  
+  /* --------- also_like */
+  .also_like{
+      margin: 20px 0px;
+  }
+  .also_like h2 {
+    color: #2a254b;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 12px;
+  }
+  
+  @media(max-width : 850px){
+    .CardPricingData_parent{
+        padding: 10px 20px !important;
+    }
+  }
+
+  @media(max-width : 700px){
+    .CardPricingData{
+        flex-direction: column;
+        gap: 25px;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+  }
+
+
+  .cardpricing-parent select{
+    width: 100%;
+    padding: 30px 10px !important;
+    flex-shrink: 0;
+    border: 1px solid var(--devider-devider, #ebebeb) !important;
+    background: #fff;
+    font-family: "Poppins";
+    outline: none;
+  }

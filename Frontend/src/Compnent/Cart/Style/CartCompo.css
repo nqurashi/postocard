@@ -1,0 +1,112 @@
+.CartCompo {
+  padding: 60px 30px;
+}
+.cart_com_header_page {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr 0.5fr;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 20px 0px;
+}
+.cart_com_header_page .p {
+  text-align: right;
+}
+/* -------- main_cart_data_page */
+.main_cart_data_page {
+  max-height: 400px;
+  overflow-y: scroll;
+  padding: 5px;
+}
+
+/* --------- cart_data */
+.cart_data_page {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr 0.5fr;
+}
+.cart_data_page .p {
+  text-align: right;
+}
+.cart_data_image {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 15px 0px;
+}
+.cart_data_image img {
+  width: 109px;
+  height: 129px;
+  flex-shrink: 0;
+}
+.cart_data_img_content h2 {
+  color: var(--Dark-Primary, #2a254b);
+  font-family: "Poppins";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 28px */
+  margin-bottom: 10px;
+}
+.cart_data_img_content p {
+  color: var(--Dark-Primary, #2a254b);
+  font-family: "Poppins";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+  max-width: 230px;
+  margin-bottom: 5px;
+}
+.cart_data_img_content span {
+  color: var(--Dark-Primary, #2a254b);
+  font-family: "Poppins";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 24px */
+}
+
+/* ---------- cart_btn_area */
+.cart_btn_area {
+  margin: 25px 0px;
+  border-top: 1px solid rgba(170, 170, 170, 0.521);
+}
+.cart_subtotal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: 10px;
+}
+.cart_subtotal p {
+  color: var(--Primary, #4e4d93);
+  font-family: "Poppins";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+}
+.sub_cart {
+  text-align: right;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: flex-end;
+}
+.sub_cart .p {
+  color: var(--Dark-Primary, #2a254b);
+  text-align: right;
+  font-family: "Poppins";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 33.6px */
+}
+.cart_btn_area button {
+  display: inline-flex;
+  padding: 16px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: #f49e3f;
+  color: white;
+  margin: 20px 0px;
+}

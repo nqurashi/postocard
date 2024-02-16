@@ -1,0 +1,79 @@
+.SingleCardSidebar {
+  width: 450px;
+  border-right: 1px solid rgba(128, 128, 128, 0.507);
+  height: 550px;
+  /* margin-top: 60px; */
+  padding-top: 60px;
+  background-color: #F5A852;
+}
+.SingleCardSidebar h2 {
+  color: white;
+  text-align: center;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding: 0px 5px;
+  margin-bottom: 20px;
+}
+.SingleCardSidebar label{
+  color: white;
+  
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding: 0px 5px;
+}
+/* --------- */
+.jodit-workplace + .jodit-status-bar:not(:empty) {
+  display: none !important;
+}
+.jodit .jodit-workplace .jodit-wysiwyg,
+.jodit .jodit-workplace .jodit-wysiwyg_iframe,
+.jodit-container .jodit-workplace .jodit-wysiwyg,
+.jodit-container .jodit-workplace .jodit-wysiwyg_iframe {
+  height: 200px;
+  width: 100%;
+}
+/* ---------- SingleCardSidebar_inputs */
+.SingleCardSidebar_inputs {
+  padding: 10px 5px;
+}
+/* .SingleCardSidebar_inputs label {
+  color: #2a254b;
+  font-size: 16px;
+  font-style: normal;
+  line-height: normal;
+  text-align: center;
+  margin-bottom: 10px;
+} */
+.SingleCardSidebar_inputs input {
+  width: 100%;
+  margin-bottom: 10px;
+  border: none;
+  outline: none;
+  padding: 6px 5px;
+  background-color: white;
+  color: black;
+  border: 1px solid #f5a852;
+  border-radius: 6px;
+}
+.SingleCardSidebar_inputs textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  border: none;
+  outline: none;
+  padding: 6px 5px;
+  background-color: white;
+  color: black;
+  border: 1px solid #f5a852;
+  border-radius: 6px;
+}
+
+@media(max-width : 600px){
+  .SingleCardSidebar{
+    width: 100%;
+    order: 2;
+  }
+}

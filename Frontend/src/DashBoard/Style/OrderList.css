@@ -1,0 +1,13 @@
+.order_list{
+    margin: 20px 0px;
+    width: 100%;
+}
+.order_list h1{
+    margin: 15px 0px;
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+}
+/* .order_list p,h2{
+    text-align: center;
+} */

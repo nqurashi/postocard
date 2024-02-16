@@ -1,0 +1,21 @@
+.arrow {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .sidebar_profile {
+    display: none;
+  }
+  .arrow {
+    display: block;
+  }
+}
+
+@media (max-width: 900px) {
+  .user_profile_content {
+    padding: 10px 0px !important;
+  }
+  .parent {
+    padding: 10px 10px !important;
+  }
+}

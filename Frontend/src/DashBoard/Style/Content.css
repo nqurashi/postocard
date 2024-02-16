@@ -1,0 +1,42 @@
+.dash_main_header{
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.dash_main_header_box{
+    width: 250px;
+    padding: 10px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+.inner_box{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0px;
+}
+.dash_main_header_box svg{
+    font-size: 40px;
+}
+.inner_box h2{
+   font-size: 20px;
+}
+.inner_box span{
+    font-size: 23px;
+}
+.inner_box1{
+    background-color: #6E6EEF;
+    color: white;
+}
+.inner_box2{
+    background-color: green;
+    color: white;
+}
+.inner_box3{
+    background-color: purple;
+    color: white;
+}

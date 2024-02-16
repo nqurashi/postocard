@@ -1,0 +1,13 @@
+.IndexCom_cartSidebar{
+    padding: 20px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+@media(max-width: 600px){
+    .IndexCom_cartSidebar{
+        flex-direction: column;
+        gap: 20px;
+    }
+
+}

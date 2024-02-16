@@ -1,0 +1,23 @@
+.single_vendor_detailes{
+    padding: 10px;
+}
+.single_vendor_detailes h1{
+    font-size: 23px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+.vendor_detail_box{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 7px;
+    margin: 6px 0px;
+    padding: 5px;
+    background-color: rgba(179, 178, 178, 0.349);
+}
+.vendor_detail_box p{
+    font-size: 14px;
+}
+.vendor_detail_box span{
+    font-size: 18px;
+}
